@@ -6,6 +6,10 @@ import (
 	"sparks/config"
 	"sparks/dal/mysql"
 	"sparks/internal/api/biz/comment"
+	"sparks/internal/api/biz/favorite"
+	"sparks/internal/api/biz/relation"
+	"sparks/internal/api/biz/user"
+	"sparks/internal/api/biz/video"
 	"sparks/internal/api/router"
 	"sparks/logger"
 	"sparks/middlewares/redis"
@@ -36,7 +40,11 @@ func main() {
 	}
 
 	// 初始化 grpc 客户端
-	comment.InitializeCommentClient()
+	comment.InitCommentClient()
+	video.InitVideoClient()
+	user.InitUserClient()
+	favorite.InitFavoriteClient()
+	relation.InitRelationClient()
 
 	r := gin.Default()
 	router.InitRouter(r)

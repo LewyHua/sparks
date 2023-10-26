@@ -9,7 +9,7 @@ import (
 	"net"
 	"sparks/config/constant"
 	proto "sparks/grpc_gen/comment"
-	"sparks/internal/comment/handler"
+	"sparks/internal/comment/service"
 	"time"
 )
 
@@ -34,7 +34,7 @@ func main() {
 	}
 	// 创建 grpc server
 	server := grpc.NewServer()
-	proto.RegisterCommentServiceServer(server, &handler.CommentServiceImpl{})
+	proto.RegisterCommentServiceServer(server, &service.CommentServiceImpl{})
 
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()

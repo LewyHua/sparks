@@ -16,7 +16,7 @@ import (
 var relationClient proto.RelationServiceClient
 var MyEtcdURL = "http://localhost:2379"
 
-func InitializeCommentClient() {
+func InitRelationClient() {
 	// 创建 etcd 客户端
 	etcdClient, err := eclient.NewFromURL(MyEtcdURL)
 	if err != nil {

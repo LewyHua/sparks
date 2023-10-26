@@ -16,7 +16,7 @@ import (
 var favoriteClient proto.FavoriteServiceClient
 var MyEtcdURL = "http://localhost:2379"
 
-func InitializeCommentClient() {
+func InitFavoriteClient() {
 	// 创建 etcd 客户端
 	etcdClient, err := eclient.NewFromURL(MyEtcdURL)
 	if err != nil {

@@ -9,6 +9,7 @@ import (
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/balancer/roundrobin"
 	"google.golang.org/grpc/credentials/insecure"
+	"net/http"
 	"sparks/config/constant"
 	proto "sparks/grpc_gen/user"
 )
@@ -16,7 +17,7 @@ import (
 var userClient proto.UserServiceClient
 var MyEtcdURL = "http://localhost:2379"
 
-func InitializeCommentClient() {
+func InitUserClient() {
 	// 创建 etcd 客户端
 	etcdClient, err := eclient.NewFromURL(MyEtcdURL)
 	if err != nil {
@@ -60,7 +61,19 @@ func Info(c *gin.Context) {
 }
 
 func Register(c *gin.Context) {
+	// 获取用户名和密码
+	username := c.PostForm("username")
+	password := c.PostForm("password")
 
+	resp, err := userClient.Register(c, &proto.UserRegisterRequest{
+		Username: username,
+		Password: password,
+	})
+	if err != nil {
+		zap.L().Error("register failed", zap.Error(err))
+		return
+	}
+	c.JSON(http.StatusOK, resp)
 }
 
 func Login(c *gin.Context) {

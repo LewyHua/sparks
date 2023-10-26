@@ -9,7 +9,7 @@ import (
 	"log"
 	"os"
 	"sparks/config"
-	"sparks/docs/models"
+	"sparks/model"
 	"time"
 )
 
@@ -43,11 +43,11 @@ func Init(appConfig *config.AppConfig) (err error) {
 		log.Fatal("connect to mysql failed:", err)
 	}
 
-	err = DB.AutoMigrate(&models.User{})
-	err = DB.AutoMigrate(&models.Video{})
-	err = DB.AutoMigrate(&models.Relation{})
-	err = DB.AutoMigrate(&models.Comment{})
-	err = DB.AutoMigrate(&models.Favorite{})
+	err = DB.AutoMigrate(&model.User{})
+	err = DB.AutoMigrate(&model.Video{})
+	err = DB.AutoMigrate(&model.Relation{})
+	err = DB.AutoMigrate(&model.Comment{})
+	err = DB.AutoMigrate(&model.Favorite{})
 	if err != nil {
 		zap.L().Error("auto migrate table failed", zap.Error(err))
 		return
