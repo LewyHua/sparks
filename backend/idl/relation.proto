@@ -1,0 +1,72 @@
+syntax = "proto3";
+package relation;
+option go_package = "sparks/grpc_gen/relation;proto";
+import "user.proto";
+
+message RelationActionRequest {
+  int64 user_id = 1; // 当前登录用户
+  int64 to_user_id = 2; // 对方用户id
+  int32 action_type = 3; // 1-关注 2-取消关注
+}
+
+message RelationActionResponse {
+  int32 status_code = 1; // 状态码，0-成功，其他值-失败
+  string status_msg = 2; // 返回状态描述
+}
+
+message FollowListRequest {
+  int64 user_id = 1; // 当前登录用户
+  int64 to_user_id = 2; // 对方用户id
+}
+
+message FollowListResponse {
+  int32 status_code = 1; // 状态码，0-成功，其他值-失败
+  string status_msg = 2; // 返回状态描述
+  repeated user.User user_list = 3; // 用户信息列表
+}
+
+message FollowerListRequest {
+  int64 user_id = 1; // 当前登录用户
+  int64 to_user_id = 2; // 对方用户id
+}
+
+message FollowerListResponse {
+  int32 status_code = 1; // 状态码，0-成功，其他值-失败
+  string status_msg = 2; // 返回状态描述
+  repeated user.User user_list = 3; // 用户列表
+}
+
+message FollowListCountRequest {
+  int32 user_id = 1; // 用户id
+}
+
+message FollowListCountResponse {
+  int32 count = 1; // 关注数
+}
+
+message FollowerListCountRequest {
+  int64 user_id = 1; // 用户id
+}
+
+message FollowerListCountResponse {
+  int32 count = 1; // 关注数
+}
+
+message IsFollowingRequest {
+  int64 actor_id = 1; // 当前操作id
+  int64 user_id = 2; // 对方用户id
+}
+
+message IsFollowingResponse {
+  bool result = 1; // 是否关注
+}
+
+
+service RelationService {
+  rpc RelationAction(RelationActionRequest) returns (RelationActionResponse); // 关注操作
+  rpc GetFollowList(FollowListRequest) returns (FollowListResponse); // 关注列表
+  rpc GetFollowerList(FollowerListRequest) returns (FollowerListResponse); // 粉丝列表
+  rpc GetFollowListCount(FollowListCountRequest) returns (FollowListCountResponse); // 查询某个用户的关注数
+  rpc GetFollowerListCount(FollowerListCountRequest) returns (FollowerListCountResponse); // 查询某个用户的粉丝数
+  rpc IsFollowing(IsFollowingRequest) returns (IsFollowingResponse); // 判断是否关注
+}

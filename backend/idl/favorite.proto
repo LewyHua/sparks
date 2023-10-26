@@ -1,0 +1,77 @@
+syntax = "proto3";
+package favorite;
+option go_package = "sparks/grpc_gen/favorite;proto";
+import "video.proto";
+
+
+message FavoriteActionRequest {
+  int64 user_id = 1; // 用户id
+  int64 video_id = 2; // 视频id
+  int32 action_type = 3; // 1-点赞，2-取消点赞
+}
+
+message FavoriteActionResponse {
+  int32 status_code = 1; // 状态码，0-成功，其他值-失败
+  string status_msg = 2; // 返回状态描述
+}
+
+message VideoFavoriteCountRequest {
+  int64 video_id = 1; // 列出user_id点赞的视频
+}
+
+message VideoFavoriteCountResponse {
+  int32 status_code = 1; // 状态码，0-成功，其他值-失败
+  string status_msg = 2; // 返回状态描述
+  int32 count = 3; // 用户获赞总数
+}
+
+message UserFavoriteListRequest {
+  int64 user_id = 1; // 列出user_id点赞的视频
+}
+
+message UserFavoriteListResponse {
+  int32 status_code = 1; // 状态码，0-成功，其他值-失败
+  string status_msg = 2; // 返回状态描述
+  repeated video.Video video_list = 3; // 用户点赞视频列表
+}
+
+message UserFavoriteCountRequest {
+  int64 user_id = 1; // 列出user_id点赞的视频
+}
+
+message UserFavoriteCountResponse {
+  int32 status_code = 1; // 状态码，0-成功，其他值-失败
+  string status_msg = 2; // 返回状态描述
+  int32 count = 3; // 用户获赞总数
+}
+
+message UserFavoritedCountRequest {
+  int64 user_id = 1; // 列出user_id点赞的视频
+}
+
+message UserFavoritedCountResponse {
+  int32 status_code = 1; // 状态码，0-成功，其他值-失败
+  string status_msg = 2; // 返回状态描述
+  int32 count = 3; // 用户获赞总数
+}
+
+
+message IsUserFavoriteRequest {
+  int64 user_id = 1; // 当前操作用户的用户id
+  int64 video_id = 2; // 视频id
+}
+
+message IsUserFavoriteResponse {
+  int32 status_code = 1; // 状态码，0-成功，其他值-失败
+  string status_msg = 2; // 返回状态描述
+  bool result = 3; // 用户是否点赞
+}
+
+service FavoriteService {
+  rpc FavoriteAction(FavoriteActionRequest) returns (FavoriteActionResponse); // 点赞操作
+  rpc GetVideoFavoriteCount(VideoFavoriteCountRequest) returns (VideoFavoriteCountResponse); // 获取 video_id 的点赞总数
+  rpc GetUserFavoriteList(UserFavoriteListRequest) returns (UserFavoriteListResponse); // 用户点赞视频列表
+  rpc GetUserFavoriteCount(UserFavoriteCountRequest) returns (UserFavoriteCountResponse); // 获取 user_id 的点赞数
+  rpc GetUserFavoritedCount(UserFavoritedCountRequest) returns (UserFavoritedCountResponse); // 获取 user_id 的获赞数量
+  rpc IsUserFavorite(IsUserFavoriteRequest) returns (IsUserFavoriteResponse); // 判断用户是否点赞了视频
+}

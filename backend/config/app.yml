@@ -1,0 +1,28 @@
+name: "douyin"
+mode: "local"
+port: 8080
+version: "v0.0.1"
+log:
+  level: "debug"
+  filename: "./log/sparks.log"
+  max_size: 1000
+  max_age: 3600
+  max_backups: 5
+mysql:
+  address: "127.0.0.1"
+  port: 3306
+  username: root
+  password: 12345678
+  database: sparks
+  timeout: 10
+redis:
+  address: "127.0.0.1"
+  port: 6379
+  password: ""
+  db: 0
+  pool_size: 30
+  min_idle_conns: 30
+  expire_time: 1800   # 30分钟
+rabbitmq:
+  address: "127.0.0.1"
+  port: 5672
