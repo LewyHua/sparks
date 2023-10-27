@@ -12,8 +12,8 @@ type Response struct {
 	StatusMsg  string `json:"status_msg,omitempty"`
 }
 
-// Auth 鉴权中间件
-func Auth() gin.HandlerFunc {
+// AuthHeader 若token在请求头里，解析token
+func AuthHeader() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		token := c.Query("token")
 		// 解析token

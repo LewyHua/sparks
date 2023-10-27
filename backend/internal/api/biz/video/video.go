@@ -61,3 +61,7 @@ func Action(c *gin.Context) {
 func List(c *gin.Context) {
 
 }
+
+func Feed(c *gin.Context) {
+
+}

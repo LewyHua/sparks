@@ -5,6 +5,7 @@ import (
 	"go.uber.org/zap"
 	"sparks/dal/mysql"
 	proto "sparks/grpc_gen/user"
+	"sparks/middlewares/redis"
 	"sparks/model"
 	"sparks/utils"
 )
@@ -42,8 +43,6 @@ func (u UserServiceImpl) Register(ctx context.Context, req *proto.UserRegisterRe
 		}, nil
 	}
 
-	// 将token存入redis
-
 	// 用户名存入Bloom Filter
 	go utils.AddToUserBloom(username)
 
@@ -52,7 +51,6 @@ func (u UserServiceImpl) Register(ctx context.Context, req *proto.UserRegisterRe
 		StatusCode: utils.CodeSuccess,
 		StatusMsg:  utils.MapErrMsg(utils.CodeSuccess),
 		UserId:     userModel.ID,
-		Token:      "fake_token",
 	}, nil
 }
 
@@ -95,7 +93,8 @@ func (u UserServiceImpl) Login(ctx context.Context, req *proto.UserLoginRequest)
 		}, nil
 	}
 
-	// TODO 将token存入redis
+	// 将token存入redis
+	redis.SetToken(userModel.ID, token)
 
 	// 返回响应
 	return &proto.UserLoginResponse{
