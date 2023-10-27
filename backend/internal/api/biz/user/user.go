@@ -65,17 +65,39 @@ func Register(c *gin.Context) {
 	username := c.PostForm("username")
 	password := c.PostForm("password")
 
+	// TODO 检查用户名和密码是否合法
+
+	// 合法则注册
 	resp, err := userClient.Register(c, &proto.UserRegisterRequest{
 		Username: username,
 		Password: password,
 	})
+
+	// 其实这里可以不用判断 err，因为即使 err != nil，resp 也不会为 nil
+	// 但是防御性编程，还是判断一下
+	// 而且如果 err != nil，resp 也是 nil，所以这里可以直接返回
 	if err != nil {
 		zap.L().Error("register failed", zap.Error(err))
+		c.JSON(http.StatusOK, resp)
 		return
 	}
+
+	// 注册成功，返回响应
 	c.JSON(http.StatusOK, resp)
 }
 
 func Login(c *gin.Context) {
+	username := c.PostForm("username")
+	password := c.PostForm("password")
 
+	resp, err := userClient.Login(c, &proto.UserLoginRequest{
+		Username: username,
+		Password: password,
+	})
+	if err != nil {
+		zap.L().Error("login failed", zap.Error(err))
+		c.JSON(http.StatusOK, resp)
+		return
+	}
+	c.JSON(http.StatusOK, resp)
 }

@@ -15,6 +15,7 @@ import (
 	"sparks/internal/user/service"
 	"sparks/logger"
 	"sparks/middlewares/redis"
+	"sparks/utils"
 
 	"time"
 )
@@ -51,6 +52,10 @@ func main() {
 		zap.L().Error("Init redis failed, err:%v\n", zap.Error(err))
 		return
 	}
+
+	// 初始化布隆过滤器
+	utils.InitUserBloomFilter()
+	utils.LoadUsernamesToBloomFilter()
 
 	// 接收命令行指定的 grpc 服务端口
 	addr := fmt.Sprintf("localhost:%s", port)

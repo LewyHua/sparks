@@ -3,6 +3,8 @@ module sparks
 go 1.20
 
 require (
+	github.com/bits-and-blooms/bloom/v3 v3.6.0
+	github.com/dgrijalva/jwt-go v3.2.0+incompatible
 	github.com/fsnotify/fsnotify v1.7.0
 	github.com/gin-gonic/gin v1.9.1
 	github.com/natefinch/lumberjack v2.0.0+incompatible
@@ -10,6 +12,7 @@ require (
 	github.com/spf13/viper v1.15.0
 	go.etcd.io/etcd/client/v3 v3.5.9
 	go.uber.org/zap v1.26.0
+	golang.org/x/crypto v0.13.0
 	google.golang.org/grpc v1.52.3
 	google.golang.org/protobuf v1.31.0
 	gorm.io/driver/mysql v1.5.2
@@ -17,6 +20,7 @@ require (
 )
 
 require (
+	github.com/bits-and-blooms/bitset v1.10.0 // indirect
 	github.com/bytedance/sonic v1.9.1 // indirect
 	github.com/cespare/xxhash/v2 v2.2.0 // indirect
 	github.com/chenzhuoyu/base64x v0.0.0-20221115062448-fe3a3abad311 // indirect
@@ -55,7 +59,6 @@ require (
 	go.etcd.io/etcd/client/pkg/v3 v3.5.9 // indirect
 	go.uber.org/multierr v1.10.0 // indirect
 	golang.org/x/arch v0.3.0 // indirect
-	golang.org/x/crypto v0.13.0 // indirect
 	golang.org/x/net v0.15.0 // indirect
 	golang.org/x/sys v0.12.0 // indirect
 	golang.org/x/text v0.13.0 // indirect

@@ -67,7 +67,9 @@ message UserExistsRequest {
 }
 
 message UserExistsResponse {
-  bool exist = 1;
+  int32 status_code = 1; // 状态码，200-成功，其他值-失败
+  string status_msg = 2; // 返回状态描述
+  bool exist = 3;
 }
 
 service UserService {

@@ -8,7 +8,7 @@ import (
 type User struct {
 	// 用户的信息社交平台信息
 	ID              int64  `gorm:"primaryKey"`
-	UserName        string `gorm:"uniqueIndex;size:32"` // 用户名称
+	Username        string `gorm:"uniqueIndex;size:32"` // 用户名称
 	Password        string `gorm:"not null"`            // 用户密码
 	Avatar          string // 用户头像
 	BackgroundImage string // 用户个人页顶部大图
