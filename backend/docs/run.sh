@@ -1,0 +1,1 @@
+ protoc -Iidl/ --go_out=grpc_gen/ ./idl/*.proto --go-grpc_out=grpc_gen/

@@ -5,11 +5,16 @@ import (
 	"fmt"
 	eclient "go.etcd.io/etcd/client/v3"
 	"go.etcd.io/etcd/client/v3/naming/endpoints"
+	"go.uber.org/zap"
 	"google.golang.org/grpc"
 	"net"
+	"sparks/config"
 	"sparks/config/constant"
+	"sparks/dal/mysql"
 	proto "sparks/grpc_gen/video"
 	"sparks/internal/video/service"
+	"sparks/logger"
+	"sparks/middlewares/redis"
 	"time"
 )
 
@@ -23,6 +28,29 @@ const (
 )
 
 func main() {
+	// 加载配置
+	if err := config.Init(); err != nil {
+		zap.L().Error("Load config failed, err:%v\n", zap.Error(err))
+		return
+	}
+	// 加载日志
+	if err := logger.Init(config.Conf.LogConfig, config.Conf.Mode); err != nil {
+		zap.L().Error("Init logger failed, err:%v\n", zap.Error(err))
+		return
+	}
+
+	// 初始化数据库
+	if err := mysql.Init(config.Conf); err != nil {
+		zap.L().Error("Init redis failed, err:%v\n", zap.Error(err))
+		return
+	}
+
+	// 初始化中间件: redis
+	if err := redis.Init(config.Conf); err != nil {
+		zap.L().Error("Init redis failed, err:%v\n", zap.Error(err))
+		return
+	}
+
 	// 接收命令行指定的 grpc 服务端口
 	addr := fmt.Sprintf("localhost:%s", port)
 
